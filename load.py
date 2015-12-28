@@ -1,3 +1,7 @@
+"""Load noaa data into hd5 X/Y dataset for training."""
+
+# TODO(johmathe): make this less horrible.
+
 import datetime
 import h5py
 import numpy as np
