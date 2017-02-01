@@ -31,7 +31,7 @@ url_retriever = BetterURLOpener()
 
 def fetch_noaa_data(start, end):
 
-    path = '/spindisk/weather_data/gfs_anl/'
+    path = './weather_data/'  # was '/spindisk/weather_data/gfs_anl/'
     url_prefix = 'http://nomads.ncdc.noaa.gov/data/gfsanl/'
     delta = end - start
 

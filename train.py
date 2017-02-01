@@ -11,13 +11,18 @@ import h5py
 np.random.seed(1337)  # for reproducibility
 
 print 'loading data...'
-dest = '/home/johmathe/weather.hdf5'
+dest = './weather.hdf5'  # was '/home/johmathe/weather.hdf5'
 data = h5py.File(dest)
 
 X_train = data['X_train'][...]
 Y_train = data['Y_train'][...]
 X_test = data['X_val'][...]
 Y_test = data['Y_val'][...]
+
+print ('x shape:', X_train.shape)
+print ('y shape:', Y_train.shape)
+# /!\ with these shapes new version of Kerias needs
+# "image_dim_ordering": "th" in ~/.keras/keras.json
 
 print 'normalizing data...'
 mean = np.mean(X_train)
