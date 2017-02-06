@@ -5,7 +5,7 @@ from keras.layers.convolutional import MaxPooling2D, Convolution2D
 from keras.layers.core import Flatten, Dense, Activation
 from keras.layers.normalization import BatchNormalization
 from keras.models import Sequential
-from keras.optimizers import SGD
+# from keras.optimizers import SGD
 
 import h5py
 np.random.seed(1337)  # for reproducibility
@@ -41,7 +41,6 @@ X_test /= std
 Y_test -= mean
 Y_test /= std
 
-
 init_method = 'he_normal'
 
 model = Sequential()
@@ -65,8 +64,8 @@ model.add(Dense(128, init=init_method))
 model.add(PReLU())
 model.add(Dense(1, init=init_method))
 
-sgd = SGD(lr=0.001, decay=1e-6, momentum=0.95, nesterov=False)
-model.compile(loss='mean_squared_error', optimizer=sgd)
+# sgd = SGD(lr=0.001, decay=1e-6, momentum=0.95, nesterov=False)
+model.compile(loss='mean_squared_error', optimizer='adam')
 
 model.fit(X_train, Y_train, batch_size=16, nb_epoch=5, shuffle=True)
 score = model.evaluate(X_test, Y_test)

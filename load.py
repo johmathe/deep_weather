@@ -9,10 +9,11 @@ import os
 import pygrib
 
 
-ANL_DATA = './weather_data/'    # was : '/spindisk/weather_data/gfs_anl/'
+ANL_DATA = '/Users/jeremielequeux/Documents/Git/deep_weather/weather_data/'
+#    was : '/spindisk/weather_data/gfs_anl/'
 ANL_LEVEL = 10
-TRAIN_SAMPLES = 200
-VAL_SAMPLES = 50
+TRAIN_SAMPLES = 600
+VAL_SAMPLES = 75
 
 grib_list = []
 
@@ -34,13 +35,13 @@ for x, y in zip(grib_list[:-2], grib_list[1:]):
     if os.path.exists(x) and os.path.exists(y):
         full_dataset.append((x, y))
 
-print 'full dataset size : %i' % len(full_dataset)
+print 'full dataset size : %d' % len(full_dataset)
 
 training_size = int(len(full_dataset) * 0.9)
 val_size = len(full_dataset) - training_size
 train_paths = full_dataset[:training_size]
 val_paths = full_dataset[training_size:]
-print 'num of triaining samples %d' % len(train_paths)
+print 'num of training samples %d' % len(train_paths)
 
 # make sure we don't go off index
 if val_size < VAL_SAMPLES:
@@ -53,7 +54,7 @@ print 'TRAIN SAMPLES : %d' % TRAIN_SAMPLES
 
 X_train = np.zeros((TRAIN_SAMPLES, 1, 361, 720), dtype=np.float)
 Y_train = np.zeros(TRAIN_SAMPLES, dtype=np.float)
-for i, (x_path, y_path) in enumerate(train_paths[:TRAIN_SAMPLES-1]):
+for i, (x_path, y_path) in enumerate(train_paths[:TRAIN_SAMPLES]):
     print 'reading training file id %d' % i
     X_grb = pygrib.open(x_path)
     X_slice = X_grb.select(name='Temperature')[ANL_LEVEL]['values']
@@ -64,7 +65,7 @@ for i, (x_path, y_path) in enumerate(train_paths[:TRAIN_SAMPLES-1]):
 
 X_val = np.zeros((VAL_SAMPLES, 1, 361, 720), dtype=np.float)
 Y_val = np.zeros(VAL_SAMPLES, dtype=np.float)
-for i, (x_path, y_path) in enumerate(val_paths[:VAL_SAMPLES-1]):
+for i, (x_path, y_path) in enumerate(val_paths[:VAL_SAMPLES]):
     print 'reading validation file id %d' % i
     X_grb = pygrib.open(x_path)
     X_slice = X_grb.select(name='Temperature')[ANL_LEVEL]['values']
